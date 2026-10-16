@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#ec008c"/>
+  <path d="M22 44 L18 56 L32 46 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="32" cy="28" rx="24" ry="17" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path d="M22 44 L18 56 L32 46 Z" fill="#fff"/>
+  <text x="32" y="36" text-anchor="middle" font-family="Arial Black, Archivo Black, Arial, sans-serif" font-size="22" fill="#111">K!</text>
+</svg>

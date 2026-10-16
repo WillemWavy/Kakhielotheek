@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kakhielotheek</title>
+  <meta name="description" content="Maak je eigen kakhiel: stockfoto erin, tekstballon erop, klaar.">
+  <meta name="theme-color" content="#ec008c">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Archivo Black = vangnet voor apparaten zonder Arial Black (Android, Linux) -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="logo" href="./" aria-label="Kakhielotheek, home">Kakhielotheek</a>
+      <p class="tag">Foto erin. Ballon erop. Klaar.</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="stage-col" aria-label="Plaatje">
+      <div class="photo-bar">
+        <label class="btn btn-black file-btn">
+          <input id="file" type="file" accept="image/*" hidden>
+          Upload foto
+        </label>
+        <button id="shuffle" class="btn btn-pink" type="button">Shuffle stockfoto</button>
+        <div class="search">
+          <input id="query" type="search" placeholder="Zoekwoord (optioneel)" autocomplete="off" enterkeyhint="search" aria-label="Zoekwoord voor stockfoto">
+        </div>
+        <label class="format">
+          <span class="sr-only">Formaat</span>
+          <select id="format" aria-label="Formaat">
+            <option value="orig">Origineel</option>
+            <option value="square" selected>Vierkant 1:1</option>
+            <option value="portrait">Staand 4:5</option>
+            <option value="landscape">Liggend 16:9</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="stage" id="stageWrap">
+        <canvas id="stage" width="1080" height="1080" aria-label="Je kakhiel"></canvas>
+        <div class="empty" id="empty">
+          <p class="empty-title">Nog geen foto</p>
+          <p>Upload er zelf een, sleep er een hierheen, of laat het lot beslissen.</p>
+        </div>
+        <div class="loading" id="loading" hidden><span>Foto zoeken…</span></div>
+      </div>
+      <p class="credit" id="credit"></p>
+    </section>
+
+    <aside class="panel" aria-label="Bewerken">
+      <div class="card">
+        <h2>Ballon erbij</h2>
+        <div class="row">
+          <button id="addWhite" class="btn btn-white" type="button"><span class="dot dot-white"></span>Witte ballon</button>
+          <button id="addBlack" class="btn btn-black" type="button"><span class="dot dot-black"></span>Zwarte ballon</button>
+        </div>
+      </div>
+
+      <div class="card" id="editor" hidden>
+        <h2>Deze ballon</h2>
+        <label class="field">
+          <span>Tekst</span>
+          <textarea id="text" rows="3" placeholder="Typ je grap"></textarea>
+        </label>
+
+        <div class="field">
+          <span>Kleur</span>
+          <div class="seg" role="group" aria-label="Kleur">
+            <button type="button" data-theme="white">Wit</button>
+            <button type="button" data-theme="black">Zwart</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span>Vorm</span>
+          <div class="seg" role="group" aria-label="Vorm">
+            <button type="button" data-shape="oval">Ovaal</button>
+            <button type="button" data-shape="rect">Blok</button>
+          </div>
+        </div>
+
+        <div class="field two">
+          <label class="check"><input id="tail" type="checkbox"> Staartje</label>
+          <label class="check"><input id="outline" type="checkbox"> Randje</label>
+        </div>
+
+        <div class="field">
+          <span class="size-label">Lettergrootte <label class="check inline"><input id="auto" type="checkbox"> automatisch</label></span>
+          <input id="size" type="range" min="8" max="200" step="1">
+        </div>
+
+        <div class="row small">
+          <button id="dup" class="btn btn-ghost" type="button">Kopie</button>
+          <button id="front" class="btn btn-ghost" type="button">Naar voren</button>
+          <button id="del" class="btn btn-ghost danger" type="button">Weg ermee</button>
+        </div>
+      </div>
+
+      <p class="hint" id="hint">
+        <strong>Zo werkt het:</strong> sleep een ballon om hem te verplaatsen, trek aan de hoekjes om het formaat te wijzigen en aan het roze bolletje voor het staartje. Dubbeltik om de tekst te bewerken.
+      </p>
+
+      <div class="card">
+        <h2>Klaar?</h2>
+        <div class="row">
+          <button id="download" class="btn btn-pink" type="button">Download</button>
+          <button id="share" class="btn btn-white" type="button" hidden>Delen</button>
+        </div>
+        <div class="row small">
+          <button id="undo" class="btn btn-ghost" type="button">Ongedaan maken</button>
+          <button id="clear" class="btn btn-ghost" type="button">Alle ballonnen weg</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>Kakhielotheek is een fan-speeltje en niet van Kakhiel zelf. Echte kakhiels vind je op <a href="https://www.kakhiel.nl" rel="noopener">kakhiel.nl</a>.</p>
+      <p>Stockfoto's via <a href="https://picsum.photos" rel="noopener">Lorem Picsum</a> (Unsplash) en <a href="https://openverse.org" rel="noopener">Openverse</a>. Check de licentie onder de foto voor je iets deelt.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
